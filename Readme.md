@@ -1,7 +1,7 @@
+
 ASCIITreeLog
 ===========
 
-.. code:: console
     | 
     + init001
     | 
@@ -21,7 +21,8 @@ ASCIITreeLog
     | 
     + test005
 
-.. code:: python
+Code
+====
 
     import 
     from datetime import datetime
@@ -53,3 +54,4 @@ ASCIITreeLog
 
 
     draw(b1.get_root())
+
