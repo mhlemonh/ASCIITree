@@ -1,5 +1,5 @@
 
-def draw(root_node, node_chr="+", vert_chr="|", branch_chr="|\\", time_format="%Y-%m-%d"):
+def show_tree(root_node, node_chr="+", vert_chr="|", branch_chr="|\\", time_format="%Y-%m-%d"):
     sorted_node_list = traverse_tree(root_node)
     column_table, max_column = get_column(sorted_node_list)
     

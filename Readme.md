@@ -2,7 +2,7 @@
 ASCIITreeLog
 ===========
 
-####show tree graph in terminal like "git log --graph"
+#### show tree graph in terminal like "git log --graph"
 
     | 
     ★     2018-03-04 : Show
@@ -27,7 +27,7 @@ Code
 ====
 
     # -*- coding: utf-8 -*-
-    import ASCIITreeLog
+    from ASCIITreeLog import TreeNode, show_tree
     from datetime import datetime
     n1 = TreeNode('Show', datetime(2018,3,4), 'content1')
     n2 = TreeNode('tree graph', datetime(2018,3,5), 'content2')
@@ -52,5 +52,5 @@ Code
     n3.add_child(bc1)
 
 
-    print draw(b1.get_root(), node_chr="★", vert_chr="|", branch_chr="├─┐")
+    print show_tree(b1.get_root(), node_chr="★", vert_chr="|", branch_chr="├─┐")
 
