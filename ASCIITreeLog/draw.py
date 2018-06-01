@@ -1,3 +1,27 @@
+
+def draw(root_node, node_chr="+", vert_chr="|", branch_chr="|\\", time_format="%Y-%m-%d"):
+    sorted_node_list = traverse_tree(root_node)
+    column_table, max_column = get_column(sorted_node_list)
+    
+    last_column = 0
+    graph = []
+    for node, node_creat_time in sorted_node_list:
+        column = column_table[node]
+        if last_column < column:
+            ascii_connection = (vert_chr+" ")*(column-1)+branch_chr
+        else:
+            ascii_connection = (vert_chr+" ")*(column+1)
+        graph.append("{connections}".format(connections=ascii_connection))
+        atoms = {"connection":(vert_chr+" ")*column,
+                 "node_chr":node_chr,
+                 "keep_space":" "*(max_column-column)*2,
+                 "time_stamp":"{}".format(node.time.strftime("%Y-%m-%d")),
+                 "content": "{}".format(node.name)}
+        graph.append("{connection}{node_chr}{keep_space} {time_stamp} : {content}".format(**atoms))
+        last_column = column
+
+    return "\n".join(graph)
+
 def traverse_tree(root_node):
     node = root_node
     queue = []
@@ -7,7 +31,7 @@ def traverse_tree(root_node):
 
         # find next node
         if len(queue) == 0 and len(node.childs) == 0:
-            #finish traversal
+            #finish traversing
             break
         else:
             if len(node.childs) != 0:
@@ -18,32 +42,19 @@ def traverse_tree(root_node):
         node = next_node
     return sorted(node_list, key=lambda x:x[1])
 
-def get_stage(sorted_node_list):
-    stage = 0
-    stage_dict = {}
+def get_column(sorted_node_list):
+    column = 0
+    max_column = 0
+    column_table = {}
     last_node = None
     for node_tuple in reversed(sorted_node_list):
         if last_node == None:
             pass
         elif len(node_tuple[0].childs) != 0:
-            stage = min([stage_dict[node]for node in node_tuple[0].childs])
+            column = min([column_table[node]for node in node_tuple[0].childs])
         else:
-            stage += 1
-        stage_dict[node_tuple[0]] = stage
+            column += 1
+        column_table[node_tuple[0]] = column
+        max_column = column if column > max_column else max_column
         last_node = node_tuple[0]
-    return stage_dict
-
-def draw(root_node):
-    sorted_node_list = traverse_tree(root_node)
-    stage_dict = get_stage(sorted_node_list)
-    
-    last_stage = 0
-    for n in sorted_node_list:
-        stage = stage_dict[n[0]]
-        if last_stage < stage:
-            print "{}|\\".format("| "*(stage-1))
-        else:
-            print "{}".format("| "*(stage+1))
-
-        print "{}+ {}".format("| "*stage, n[0].name)
-        last_stage = stage
+    return column_table, max_column

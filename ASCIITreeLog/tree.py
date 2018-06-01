@@ -1,6 +1,5 @@
 
 class TreeNode(object):
-    """"""
     def __init__(self, name, time, docs):
         self.name = name
         self.time = time
