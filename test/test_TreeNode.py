@@ -5,13 +5,13 @@ from datetime import datetime
 class TreeNodeTestCase(unittest.TestCase):
     
     def setUp(self):
-        self.r0 = ASCIITree.TreeNode('InitNode', datetime(2018,3,4), "I'm the root Node!")
-        self.n1 = ASCIITree.TreeNode('Node001', datetime(2018,3,5), 'Root is my parent.')
-        self.n2 = ASCIITree.TreeNode('Node002', datetime(2018,3,8), "I'm the children of Node001")
-        self.b1 = ASCIITree.TreeNode('Branch001', datetime(2018,3,12), 'Node001 is my parent.')
-        self.b2 = ASCIITree.TreeNode('Branch002', datetime(2018,3,15), 'Branch ver.2.')
-        self.bb1 = ASCIITree.TreeNode('Branch003', datetime(2018,3,14), 'Child of Branch002')
-        self.bc1 = ASCIITree.TreeNode('BB002', datetime(2018,4,5), 'Another child of Branch002')
+        self.r0 = ASCIITreeLog.TreeNode('InitNode', datetime(2018,3,4), "I'm the root Node!")
+        self.n1 = ASCIITreeLog.TreeNode('Node001', datetime(2018,3,5), 'Root is my parent.')
+        self.n2 = ASCIITreeLog.TreeNode('Node002', datetime(2018,3,8), "I'm the children of Node001")
+        self.b1 = ASCIITreeLog.TreeNode('Branch001', datetime(2018,3,12), 'Node001 is my parent.')
+        self.b2 = ASCIITreeLog.TreeNode('Branch002', datetime(2018,3,15), 'Branch ver.2.')
+        self.bb1 = ASCIITreeLog.TreeNode('Branch003', datetime(2018,3,14), 'Child of Branch002')
+        self.bc1 = ASCIITreeLog.TreeNode('BB002', datetime(2018,4,5), 'Another child of Branch002')
 
     def test_set_parent(self):
         self.n1.set_parent(self.r0)

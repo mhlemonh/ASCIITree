@@ -29,6 +29,7 @@ Code
     # -*- coding: utf-8 -*-
     from ASCIITreeLog import TreeNode, show_tree
     from datetime import datetime
+    
     n1 = TreeNode('Show', datetime(2018,3,4), 'content1')
     n2 = TreeNode('tree graph', datetime(2018,3,5), 'content2')
     n1.add_child(n2)

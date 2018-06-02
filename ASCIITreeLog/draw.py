@@ -1,9 +1,11 @@
 
-def show_tree(root_node, node_chr="+", vert_chr="|", branch_chr="|\\", time_format="%Y-%m-%d"):
+def show_tree(root_node, node_chr, vert_chr, branch_chr, time_format):
+
     sorted_node_list = traverse_tree(root_node)
     column_table, max_column = get_column(sorted_node_list)
     
     last_column = 0
+    content_loc = max_column*2+5+len(sorted_node_list[0][0].time.strftime(time_format))
     graph = []
     for node, node_creat_time in sorted_node_list:
         column = column_table[node]
@@ -11,14 +13,24 @@ def show_tree(root_node, node_chr="+", vert_chr="|", branch_chr="|\\", time_form
             ascii_connection = (vert_chr+" ")*(column-1)+branch_chr
         else:
             ascii_connection = (vert_chr+" ")*(column+1)
-        graph.append("{connections}".format(connections=ascii_connection))
-        atoms = {"connection":(vert_chr+" ")*column,
-                 "node_chr":node_chr,
-                 "keep_space":" "*(max_column-column)*2,
-                 "time_stamp":"{}".format(node.time.strftime("%Y-%m-%d")),
-                 "content": "{}".format(node.name)}
-        graph.append("{connection}{node_chr}{keep_space} {time_stamp} : {content}".format(**atoms))
+        
+        connect_atoms = {"connections":ascii_connection,
+                         "keep_space":" "*(content_loc-len(ascii_connection.decode('utf-8'))),
+                         "detail_info":""}
+
+        graph.append("{connections}{keep_space}{detail_info}".format(**connect_atoms))
+
+        node_atoms = {"connection":(vert_chr+" ")*column,
+                      "node_chr":node_chr,
+                      "keep_space":" "*(max_column-column)*2,
+                      "time_stamp":node.time.strftime(time_format),
+                      "content": "{}".format(node.name)}
+        graph.append("{connection}{node_chr}{keep_space} {time_stamp} : {content}".format(**node_atoms))
         last_column = column
+
+    connect_atoms = {"keep_space":" "*(content_loc),
+                     "detail_info":""}
+    graph.append("{keep_space}{detail_info}".format(**connect_atoms))
 
     return "\n".join(graph)
 
