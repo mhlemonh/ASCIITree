@@ -3,7 +3,7 @@
 
 Show tree graph in terminal like "git log --graph" with time series.
 
-![Preview](./image/screenshot.JPG)
+![Preview](https://github.com/mhlemonh/ASCIITreeLog/image/screenshot.JPG)
 
 ## Installing
 
