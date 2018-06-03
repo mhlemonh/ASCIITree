@@ -14,13 +14,13 @@ class TreeNode(object):
         return "TreeNode[{}]".format(self.name)
 
     def add_child(self, child):
-        assert isinstance(child, TreeNode)
+        assert isinstance(child, TreeNode), "add_child() method only accept <ASCIITreeLog.TreeNode> object."
         self.childs.append(child)
         if child.parent != self:
             child.set_parent(self)
 
     def set_parent(self, parent):
-        assert isinstance(parent, TreeNode)
+        assert isinstance(parent, TreeNode), "set_parent() method only accept <ASCIITreeLog.TreeNode> object."
         self.parent = parent
         if self not in parent.childs:
             parent.add_child(self)

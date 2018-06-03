@@ -8,8 +8,9 @@ Show tree graph in terminal like "git log --graph" with time series.
 ## Installing
 
 ```
-    git clone https://github.com/mhlemonh/ASCIITreeLog.git
-    pip install . 
+    $ git clone https://github.com/mhlemonh/ASCIITreeLog.git
+    $ cd ASCIITreeLog
+    $ pip install . 
 ```
 ## Example
 
