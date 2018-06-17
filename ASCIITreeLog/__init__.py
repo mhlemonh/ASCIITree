@@ -1,5 +1,6 @@
 from tree import TreeNode
 from draw import show_tree as show_tree_raw
+from draw import show_tree2, show_tree3
 
 def show_tree(root_node, node_chr="+", vert_chr="|", branch_chr="|\\ ", time_format="%Y-%m-%d"):
     # control the input file type here
