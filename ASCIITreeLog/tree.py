@@ -21,6 +21,7 @@ class TreeNode(object):
 
     def set_parent(self, parent):
         assert isinstance(parent, TreeNode), "set_parent() method only accept <ASCIITreeLog.TreeNode> object."
+        assert self.parent is None, "Can not set multiple parent."
         self.parent = parent
         if self not in parent.childs:
             parent.add_child(self)

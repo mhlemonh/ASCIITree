@@ -42,5 +42,5 @@ Show tree graph in terminal like "git log --graph" with time series.
     n3.add_child(bc1)
 
 
-    print show_tree(b1.get_root(), node_chr="★", vert_chr="|", branch_chr="├─┐")
+    print show_tree(b1.get_root(), node_chr="★")
 ```
