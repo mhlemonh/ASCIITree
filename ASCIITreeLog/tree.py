@@ -4,8 +4,8 @@ class TreeNode(object):
         self.name = name
         self.time = time
         self.docs = docs
-        self.childs = []
-        self.parent = None
+        self.downstreams = []
+        self.upstreams = []
 
     def __str__(self):
         return self.name
@@ -13,22 +13,27 @@ class TreeNode(object):
     def __repr__(self):
         return "TreeNode[{}]".format(self.name)
 
-    def add_child(self, child):
-        assert isinstance(child, TreeNode), "add_child() method only accept <ASCIITreeLog.TreeNode> object."
-        self.childs.append(child)
-        if child.parent != self:
-            child.set_parent(self)
+    def __eq__(self, other):
+        return (self.name == other.name) and (self.time == other.time)
 
-    def set_parent(self, parent):
-        assert isinstance(parent, TreeNode), "set_parent() method only accept <ASCIITreeLog.TreeNode> object."
-        assert self.parent is None, "Can not set multiple parent."
-        self.parent = parent
-        if self not in parent.childs:
-            parent.add_child(self)
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def add_downstream(self, node):
+        assert isinstance(node, TreeNode), "add_downstream() method only accept <ASCIITreeLog.TreeNode> object."
+        self.downstreams.append(node)
+        if self not in node.upstreams:
+            node.set_upstream(self)
+
+    def set_upstream(self, node):
+        assert isinstance(node, TreeNode), "set_upstream() method only accept <ASCIITreeLog.TreeNode> object."
+        self.upstreams.append(node)
+        if self not in node.downstreams:
+            node.add_downstream(self)
 
     def get_root(self):
-        if self.parent == None:
+        if len(self.upstreams) == 0:
             return self
         else:
-            return self.parent.get_root()
+            return self.upstreams[0].get_root()
     
