@@ -6,7 +6,7 @@ def read(fname):
 
 setup(
     name = "ASCIITreeLog",
-    version = "0.1",
+    version = "0.1.1",
     description = "Show tree graph in terminal with time series.",
     long_description=read('Readme.md'),
     url = "https://github.com/mhlemonh/ASCIITreeLog",

@@ -1,6 +1,6 @@
 
 class TreeNode(object):
-    def __init__(self, name, time, docs):
+    def __init__(self, name, time, docs=""):
         self.name = name
         self.time = time
         self.docs = docs
