@@ -20,37 +20,37 @@ class PlotBit(object):
                          (True, True, True, True):self.cross(),
                          (False, False, False, False):" "}
     @classmethod
-    def vert(self):
+    def vert(cls):
         return "|"
     @classmethod
-    def vert_right(self):
+    def vert_right(cls):
         return "├"
     @classmethod
-    def vert_left(self):
+    def vert_left(cls):
         return "┤"
     @classmethod
-    def hori(self):
+    def hori(cls):
         return "─"
     @classmethod
-    def hori_up(self):
+    def hori_up(cls):
         return "┴"
     @classmethod
-    def hori_down(self):
+    def hori_down(cls):
         return "┬"
     @classmethod
-    def corner_ur(self):
+    def corner_ur(cls):
         return "┐"
     @classmethod
-    def corner_ul(self):
+    def corner_ul(cls):
         return "┌"
     @classmethod
-    def corner_lr(self):
+    def corner_lr(cls):
         return "┘"
     @classmethod
-    def corner_ll(self):
+    def corner_ll(cls):
         return "└"
     @classmethod
-    def cross(self):
+    def cross(cls):
         return "┼"
 
     @property

@@ -20,20 +20,37 @@ class TreeNode(object):
         return not self.__eq__(other)
 
     def add_downstream(self, node):
-        assert isinstance(node, TreeNode), "add_downstream() method only accept <ASCIITreeLog.TreeNode> object."
+        err_msg = "add_downstream() method only accept <ASCIITreeLog.TreeNode> object."
+        assert isinstance(node, TreeNode), err_msg
+        time_err_msg = "The timestamp of downstream node should be later."
+        assert self.time < node.time, time_err_msg
         self.downstreams.append(node)
         if self not in node.upstreams:
             node.set_upstream(self)
 
     def set_upstream(self, node):
-        assert isinstance(node, TreeNode), "set_upstream() method only accept <ASCIITreeLog.TreeNode> object."
+        err_msg = "set_upstream() method only accept <ASCIITreeLog.TreeNode> object."
+        assert isinstance(node, TreeNode), err_msg
         self.upstreams.append(node)
         if self not in node.downstreams:
             node.add_downstream(self)
 
     def get_root(self):
-        if len(self.upstreams) == 0:
+        if not self.upstreams:
             return self
         else:
             return self.upstreams[0].get_root()
+
+    def is_oldest_upstream(self):
+        for downstream_node in self.downstreams:
+            is_younger = (upper_node.time >= self.time for upper_node in downstream_node.upstreams)
+            if not all(is_younger):
+                return False
+        return True
+
+    def have_multiple_downstreams(self):
+        return len(self.downstreams) > 1
+
+    def have_single_downstreams(self):
+        return len(self.downstreams) == 1
     

@@ -12,7 +12,7 @@ class TreeNodeTestCase(unittest.TestCase):
         self.n2 = ASCIITreeLog.TreeNode('Node002', datetime(2018,3,8), "I'm the children of Node001")
         self.b1 = ASCIITreeLog.TreeNode('Branch001', datetime(2018,3,12), 'Node001 is my parent.')
         self.b2 = ASCIITreeLog.TreeNode('Branch002', datetime(2018,3,15), 'Branch ver.2.')
-        self.bb1 = ASCIITreeLog.TreeNode('Branch003', datetime(2018,3,14), 'Child of Branch002')
+        self.bb1 = ASCIITreeLog.TreeNode('Branch003', datetime(2018,3,19), 'Child of Branch002')
         self.bc1 = ASCIITreeLog.TreeNode('BB002', datetime(2018,4,5), 'Another child of Branch002')
 
     def test_set_parent(self):
@@ -41,14 +41,14 @@ class TreeNodeTestCase(unittest.TestCase):
 class DrawTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.r0 = ASCIITreeLog.TreeNode('InitNode', datetime(2018,3,4), "I'm the root Node!")
-        self.n1 = ASCIITreeLog.TreeNode('Node001', datetime(2018,3,5), 'Root is my parent.')
-        self.n2 = ASCIITreeLog.TreeNode('Node002', datetime(2018,3,8), "I'm the children of Node001")
-        self.b1 = ASCIITreeLog.TreeNode('Branch001', datetime(2018,3,12), 'Node001 is my parent.')
-        self.b2 = ASCIITreeLog.TreeNode('Branch002', datetime(2018,3,15), 'Branch ver.2.')
-        self.bb1 = ASCIITreeLog.TreeNode('Branch003', datetime(2018,3,14), 'Child of Branch002')
-        self.bc1 = ASCIITreeLog.TreeNode('BB002', datetime(2018,4,5), 'Another child of Branch002')
-    
+        self.r0 = ASCIITreeLog.TreeNode('R0', datetime(2018, 3, 4), "I'm the root Node!")
+        self.n1 = ASCIITreeLog.TreeNode('N1', datetime(2018, 3, 5), 'Root is my parent.')
+        self.n2 = ASCIITreeLog.TreeNode('N2', datetime(2018, 3, 8), "I'm the children of Node001")
+        self.b1 = ASCIITreeLog.TreeNode('B1', datetime(2018, 3, 12), 'Node001 is my parent.')
+        self.b2 = ASCIITreeLog.TreeNode('B2', datetime(2018, 3, 15), 'Branch ver.2.')
+        self.bb1 = ASCIITreeLog.TreeNode('BB1', datetime(2018, 3, 19), 'Child of Branch002')
+        self.bc1 = ASCIITreeLog.TreeNode('BC2', datetime(2018, 4, 5), 'Another child of Branch002')
+
     def test_simple_branch(self):
         self.r0.add_downstream(self.n1)
         self.r0.add_downstream(self.n2)
@@ -92,6 +92,42 @@ class DrawTestCase(unittest.TestCase):
         actual_graph = ASCIITreeLog.show_tree(self.r0, graph_arrangement="{connection}")
         self.assertEqual(expected_graph, actual_graph)
 
+    def test_complex_merge_01(self):
+        self.r0.add_downstream(self.n1)
+        self.r0.add_downstream(self.n2)
+        self.n2.add_downstream(self.b1)
+        self.n1.add_downstream(self.b1)
+        expected_graph=("|   \n"
+                        "+   \n"
+                        "├─╮ \n"
+                        "+ | \n"
+                        "| | \n"
+                        "| + \n"
+                        "├─╯ \n"
+                        "+   ")
+        actual_graph = ASCIITreeLog.show_tree(self.r0, graph_arrangement="{connection}")
+        self.assertEqual(expected_graph, actual_graph)
+
+    def test_complex_merge_02(self):
+        self.r0.add_downstream(self.n1)
+        self.r0.add_downstream(self.n2)
+        self.r0.add_downstream(self.b1)
+        self.b1.add_downstream(self.b2)
+        self.n2.add_downstream(self.b2)
+        self.n1.add_downstream(self.b2)
+        expected_graph=("|     \n"
+                        "+     \n"
+                        "├─┬─╮ \n"
+                        "+ | | \n"
+                        "| | | \n"
+                        "| | + \n"
+                        "├─|─╯ \n"
+                        "| +   \n"
+                        "├─╯   \n"
+                        "+     ")
+        actual_graph = ASCIITreeLog.show_tree(self.r0, graph_arrangement="{connection}")
+        self.assertEqual(expected_graph, actual_graph)
+
     def test_horizon_flow_not_overwrite_vertical_flow(self):
         self.r0.add_downstream(self.n1)
         self.r0.add_downstream(self.n2)
@@ -102,6 +138,28 @@ class DrawTestCase(unittest.TestCase):
                         "├─┬─╮ \n"
                         "| | + \n"
                         "├─|─╯ \n"
+                        "| +   \n"
+                        "|     \n"
+                        "+     ")
+        actual_graph = ASCIITreeLog.show_tree(self.r0, graph_arrangement="{connection}")
+        self.assertEqual(expected_graph, actual_graph)
+
+    def test_horizon_flow_not_overwrite_vertical_flow_02(self):
+        self.r0.add_downstream(self.n1)
+        self.r0.add_downstream(self.n2)
+        self.n1.add_downstream(self.b1)
+        self.n1.add_downstream(self.b2)
+        self.n2.add_downstream(self.b1)
+        self.n2.add_downstream(self.bb1)
+        expected_graph=("|     \n"
+                        "+     \n"
+                        "├─╮   \n"
+                        "| +   \n"
+                        "| ├─╮ \n"
+                        "+ | | \n"
+                        "├─|─| \n"
+                        "| | + \n"
+                        "| |   \n"
                         "| +   \n"
                         "|     \n"
                         "+     ")
