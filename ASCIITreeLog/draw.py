@@ -81,10 +81,10 @@ def show_tree(root_node, node_chr, time_format, graph_arrangement, plot_element)
     return "\n".join(lines)
 
 def get_link_graph(graph_utility, plot_element):
-    link_dict = graph_utility.get_column_link()
+    column_links = graph_utility.get_column_link()
     link_graph_bits = [plot_element() for _ in range(graph_utility.max_column*2+1)]
 
-    for from_col, to_col in link_dict.items():
+    for from_col, to_col in column_links.items():
         link_graph_bits[from_col*2].up = True
         for col in to_col:
             link_graph_bits[col*2].down = True
@@ -108,7 +108,7 @@ def get_link_graph(graph_utility, plot_element):
             link_graph_bits[col].right = True
             link_graph_bits[col].left = True
 
-    return "".join([bit.get_plot_item() for bit in link_graph_bits])
+    return "".join([graph_bit.get_plot_item() for graph_bit in link_graph_bits])
 
 def get_node_graph(node, node_chr, graph_utility, plot_element):
     raw_atoms = [" "]*(graph_utility.max_column*2+1)
@@ -152,11 +152,13 @@ def get_node_location(node_list):
         row += 1
         if previous_node is None:
             column = 0
-        elif node.have_downstreams() and node.is_oldest_upstream():
+        elif node.have_multiple_downstreams():
             childs_occupied_column = \
                 [location[downstream_node].column for downstream_node in node.downstreams]
             occupied_column = occupied_column.difference(set(childs_occupied_column))
             column = min(childs_occupied_column)
+        elif node.have_single_downstreams() and node.is_oldest_upstream():
+            column = location[node.downstreams[0]].column
         else:
             column = max(occupied_column)+1
 

@@ -22,6 +22,8 @@ class TreeNode(object):
     def add_downstream(self, node):
         err_msg = "add_downstream() method only accept <ASCIITreeLog.TreeNode> object."
         assert isinstance(node, TreeNode), err_msg
+        time_err_msg = "The timestamp of downstream node should be later."
+        assert self.time < node.time, time_err_msg
         self.downstreams.append(node)
         if self not in node.upstreams:
             node.set_upstream(self)
@@ -46,6 +48,9 @@ class TreeNode(object):
                 return False
         return True
 
-    def have_downstreams(self):
-        return len(self.downstreams) != 0
+    def have_multiple_downstreams(self):
+        return len(self.downstreams) > 1
+
+    def have_single_downstreams(self):
+        return len(self.downstreams) == 1
     
